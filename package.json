@@ -1,0 +1,26 @@
+{
+    "name": "posen",
+    "version": "0.0.1",
+    "description": "Page object oriented selenium-webdriver library for node.",
+    "main": "lib/posen.js",
+    "dependencies": {
+        "selenium-webdriver": "2.35.0"
+    },  
+    "devDependencies": {
+        "grunt": "0.4.1",
+        "grunt-jslint": "0.2.6",
+        "grunt-mocha-test": "0.6.3"
+    },
+    "scripts": {
+        "test": "grunt test"
+    },
+    "keywords": [
+        "webdriver",
+        "pageobject"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/selaux/posenjs"
+    },
+    "license": "MIT"
+}
