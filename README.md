@@ -1,4 +1,4 @@
-posenjs
+posejs
 =======
 
 Page object oriented selenium-webdriver library for node. ATM in a concept phase...
@@ -7,10 +7,10 @@ How its supposed to look like in the end:
 
 ```javascript
 var assert = require('assert'),
-    posen = require('posen'),
-    PosenDriver = posen.Driver,
-    pageModule = posen.pageModule,
-    pageObject = posen.pageObject,
+    pose = require('pose'),
+    PoseDriver = pose.Driver,
+    pageModule = pose.pageModule,
+    pageObject = pose.pageObject,
     SearchResult,
     GooglePage;
 
@@ -41,7 +41,7 @@ GooglePage = pageObject({
     }
 });
 
-var driver = new PosenDriver({
+var driver = new PoseDriver({
     server: 'http://localhost:4444/wd/hub',
     capabilities: [
         posen.Capabilities.chrome()
