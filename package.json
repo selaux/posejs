@@ -8,13 +8,14 @@
     },  
     "devDependencies": {
         "grunt": "0.4.1",
+        "grunt-cli": "0.1.9",
         "grunt-jslint": "1.0.0",
         "grunt-mocha-test": "0.6.3",
         "expect.js": "0.2.0",
         "phantomjs": "1.9.1-5"
     },
     "scripts": {
-        "test": "grunt test"
+        "test": "node_modules/.bin/grunt test"
     },
     "keywords": [
         "webdriver",
