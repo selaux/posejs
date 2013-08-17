@@ -7,10 +7,13 @@ var path = require('path'),
 
     driverUtils = require('../../utils/driverUtils'),
     serverUtils = require('../../utils/serverUtils'),
-    Driver = require('../../../lib/driver');
+
+    Driver = require('../../../lib/driver'),
+    ElementSet = require('../../../lib/elementset'),
+
+    testPage = 'file://' + path.join(__dirname, '../../fixtures/test.html');
 
 function testThatDriverWorks(driver, done) {
-    var testPage = 'file://' + path.join(__dirname, '../../fixtures/test.html');
     driver.get(testPage);
     driver.getTitle().then(function (title) {
         expect(title).to.eql('It Works!');
@@ -51,10 +54,34 @@ describe('Driver', function () {
     });
 
     describe('getWebDriver', function () {
-        it('should return the webdriver', function (done) {
+        it('should return the underlying webdriver', function (done) {
             var driver = driverUtils.getTestDriver(this.server);
             expect(driver.getWebDriver()).to.be.a(webdriver.WebDriver);
             driver.quit().then(done, done);
+        });
+    });
+
+    describe('findElement', function () {
+        it('should return a ElementSet containing a single element', function (done) {
+            var driver = driverUtils.getTestDriver(this.server),
+                elementSet,
+                webElement;
+
+            driver.get(testPage);
+
+            driver.findElement(webdriver.By.id('selectMe')).then(function (result) {
+                elementSet = result;
+            });
+            driver.getWebDriver().findElement(webdriver.By.id('selectMe')).then(function (result) {
+                webElement = result;
+            });
+            driver.controlFlow().execute(function () {
+                return webdriver.WebElement.equals(elementSet.getWebElements()[0], webElement).then(function (areEqual) {
+                    expect(elementSet).to.be.a(ElementSet);
+                    expect(elementSet.getWebElements()).to.have.length(1);
+                    expect(areEqual).to.be(true);
+                });
+            }).then(done, done);
         });
     });
 
