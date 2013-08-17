@@ -61,5 +61,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', [ 'jslint', 'curl', 'mochaTest:unit', 'mochaTest:selenium' ]);
+    grunt.registerTask('test', [ 'jslint', 'mochaTest:unit', 'curl:seleniumServer', 'mochaTest:selenium' ]);
 };
