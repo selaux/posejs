@@ -3,6 +3,9 @@ posejs
 
 Page object oriented selenium-webdriver library for node. ATM in a concept phase...
 
+[![Build Status](https://travis-ci.org/selaux/posejs.png)](https://travis-ci.org/selaux/posejs)
+[![Build Status](https://david-dm.org/selaux/posejs.png)](https://david-dm.org/selaux/posejs)
+
 How its supposed to look like in the end:
 
 ```javascript
