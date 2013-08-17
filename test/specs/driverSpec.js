@@ -6,6 +6,7 @@ var path = require('path'),
     webdriver = require('selenium-webdriver'),
 
     driverUtils = require('../utils/driverUtils'),
+    serverUtils = require('../utils/serverUtils'),
     Driver = require('../../lib/driver');
 
 function testThatDriverWorks(driver, done) {
@@ -19,7 +20,6 @@ function testThatDriverWorks(driver, done) {
 }
 
 describe('Driver', function () {
-
     it('should inherit methods from selenium-webdriver', function (done) {
         var driver = driverUtils.getTestDriver();
         testThatDriverWorks(driver, done);
@@ -29,26 +29,30 @@ describe('Driver', function () {
         it('should be able change the used browser', function (done) {
             var driver = driverUtils.getTestDriver({
                 capabilities: [
-                    webdriver.Capabilities.phantomjs()
+                    webdriver.Capabilities.firefox()
                 ]
             });
             driver.getCapabilities().then(function (cap) {
-                expect(cap.get('browserName')).to.eql('phantomjs');
+                expect(cap.get('browserName')).to.eql('firefox');
             });
             driver.quit().then(done, done);
         });
 
         it('should be able to set the used server url', function (done) {
-            var driver = driverUtils.getTestDriver({
-                server: 'http://127.0.0.1:4444/wd/hub'
+            this.timeout(30000);
+
+            var server = serverUtils.startServer({ port: 5556, local: true }, function () {
+                var driver = driverUtils.getTestDriver(server);
+                testThatDriverWorks(driver, function () {
+                    serverUtils.stopServer(server, done);
+                });
             });
-            testThatDriverWorks(driver, done);
         });
     });
 
     describe('getWebDriver', function () {
         it('should return the webdriver', function (done) {
-            var driver = driverUtils.getTestDriver();
+            var driver = driverUtils.getTestDriver(this.server);
             expect(driver.getWebDriver()).to.be.a(webdriver.WebDriver);
             driver.quit().then(done, done);
         });
