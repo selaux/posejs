@@ -6,6 +6,7 @@ var expect = require('expect.js'),
     promiseUtils = require('../../../../lib/utils/promiseUtils');
 
 describe('promiseUtils', function () {
+
     describe('all', function () {
         it('fulfills when passed an empty array', function (done) {
             var empty = [];
@@ -60,6 +61,32 @@ describe('promiseUtils', function () {
             }, done);
 
             promise1.fulfill(1);
+        });
+    });
+
+    describe('fulfillTo', function () {
+        it('should reject when the promise is rejected', function (done) {
+            var promise = webdriver.promise.defer();
+
+            promiseUtils.fulfillTo(promise, 1).then(function () {
+                done('Promise not rejected!');
+            }, function (err) {
+                expect(err).to.equal('rejected');
+                done();
+            });
+
+            promise.reject('rejected');
+        });
+
+        it('should fulfill to the specified value', function (done) {
+            var promise = webdriver.promise.defer();
+
+            promiseUtils.fulfillTo(promise, 1).then(function (result) {
+                expect(result).to.equal(1);
+                done();
+            }, done);
+
+            promise.fulfill(1234);
         });
     });
 });
