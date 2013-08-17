@@ -83,6 +83,20 @@ describe('Driver', function () {
                 });
             }).then(done, done);
         });
+
+        it('should throw an error if the element is not present', function (done) {
+            var driver = driverUtils.getTestDriver(this.server);
+
+            driver.get(testPage);
+
+            driver.findElement(webdriver.By.id('nonExistant')).then(function () {
+                done(new Error('There was no error thrown'));
+            }, function (err) {
+                expect(err).to.be.ok();
+                expect(err.message).to.contain('Unable to find element');
+                done();
+            });
+        });
     });
 
 });
