@@ -51,7 +51,7 @@ var driver = new PoseDriver({
 driver.to(GooglePage);
 driver.page.searchInput().value('Wikipedia');
 driver.page.submitButton().click();
-driver.page.searchResults().get(0).value().then(function (val) {
+driver.page.searchResults().get(0).getText().then(function (val) {
     assert.equal(val, 'www.wikipedia.org');
 });
 driver.quit();
