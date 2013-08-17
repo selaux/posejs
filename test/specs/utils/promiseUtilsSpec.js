@@ -3,7 +3,7 @@
 var expect = require('expect.js'),
     webdriver = require('selenium-webdriver'),
 
-    promiseUtils = require('../../../lib/utils/promiseUtils')
+    promiseUtils = require('../../../lib/utils/promiseUtils');
 
 describe('promiseUtils', function () {
     describe('all', function () {
@@ -13,7 +13,7 @@ describe('promiseUtils', function () {
             promiseUtils.all(empty).then(function (result) {
                 expect(result).to.be(empty);
                 done();
-            }, done)
+            }, done);
         });
 
         it('rejects when any of the promises is rejected', function (done) {
@@ -30,7 +30,7 @@ describe('promiseUtils', function () {
 
             fulfilledPromise.fulfill(12);
             setTimeout(function () {
-                rejectedPromise.reject('rejected')
+                rejectedPromise.reject('rejected');
             }, 100);
         });
 
