@@ -46,7 +46,7 @@ module.exports = function (grunt) {
             selenium: {
                 options: {
                     reporter: 'spec',
-                    timeout: 5000
+                    timeout: 10000
                 },
 
                 src: [
