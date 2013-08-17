@@ -1,6 +1,6 @@
 'use strict';
 
-var serverUtils = require('../../utils/serverUtils');
+var serverUtils = require('../../../utils/serverUtils');
 
 before(function (done) {
     this.timeout(30000);

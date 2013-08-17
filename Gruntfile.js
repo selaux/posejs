@@ -33,14 +33,24 @@ module.exports = function (grunt) {
         },
 
         mochaTest: {
-            test: {
+            unit: {
+                options: {
+                    reporter: 'spec'
+                },
+
+                src: [
+                    'test/specs/unit/**/*.js'
+                ]
+            },
+
+            selenium: {
                 options: {
                     reporter: 'spec',
                     timeout: 5000
                 },
 
                 src: [
-                    'test/specs/**/*.js'
+                    'test/specs/selenium/**/*.js'
                 ]
             }
         }
@@ -51,5 +61,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', [ 'jslint', 'curl', 'mochaTest' ]);
+    grunt.registerTask('test', [ 'jslint', 'curl', 'mochaTest:unit', 'mochaTest:selenium' ]);
 };

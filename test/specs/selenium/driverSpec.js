@@ -5,12 +5,12 @@ var path = require('path'),
     expect = require('expect.js'),
     webdriver = require('selenium-webdriver'),
 
-    driverUtils = require('../utils/driverUtils'),
-    serverUtils = require('../utils/serverUtils'),
-    Driver = require('../../lib/driver');
+    driverUtils = require('../../utils/driverUtils'),
+    serverUtils = require('../../utils/serverUtils'),
+    Driver = require('../../../lib/driver');
 
 function testThatDriverWorks(driver, done) {
-    var testPage = 'file://' + path.join(__dirname, '../fixtures/test.html');
+    var testPage = 'file://' + path.join(__dirname, '../../fixtures/test.html');
     driver.get(testPage);
     driver.getTitle().then(function (title) {
         expect(title).to.eql('It Works!');

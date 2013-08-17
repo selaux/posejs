@@ -3,7 +3,7 @@
 var expect = require('expect.js'),
     webdriver = require('selenium-webdriver'),
 
-    promiseUtils = require('../../../lib/utils/promiseUtils');
+    promiseUtils = require('../../../../lib/utils/promiseUtils');
 
 describe('promiseUtils', function () {
     describe('all', function () {
