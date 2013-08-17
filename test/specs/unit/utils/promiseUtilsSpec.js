@@ -64,6 +64,66 @@ describe('promiseUtils', function () {
         });
     });
 
+    describe('map', function () {
+        var doubles = function (el) {
+            var d = webdriver.promise.defer();
+            setTimeout(function () {
+                d.fulfill(2 * el);
+            }, 10);
+            return d;
+        };
+
+        it('fulfills when passed an empty array', function (done) {
+            promiseUtils.map([], doubles).then(function (result) {
+                expect(result).to.eql([]);
+                done();
+            }, done);
+        });
+
+        it('rejects when any of the promises is selected', function (done) {
+            var fails = function (el) {
+                var d = webdriver.promise.defer();
+                setTimeout(function () {
+                    if (el === 3) {
+                        d.reject('rejected');
+                    } else {
+                        d.fulfill(1);
+                    }
+                }, 10);
+                return d;
+            };
+
+            promiseUtils.map([ 1, 2, 3 ], fails).then(function () {
+                done(new Error('No error thrown'));
+            }, function (err) {
+                expect(err).to.equal('rejected');
+                done();
+            });
+        });
+
+        it('creates a new array containing the mapped values', function (done) {
+            promiseUtils.map([ 1, 2, 3], doubles).then(function (result) {
+                expect(result).to.eql([ 2, 4, 6 ]);
+                done();
+            }, done);
+        });
+
+        it('passes on the iterator', function (done) {
+            var multipliesIterator = function (el, it) {
+                var d = webdriver.promise.defer();
+                setTimeout(function () {
+                    d.fulfill(el * it);
+                }, 10);
+                return d;
+            };
+
+            promiseUtils.map([ 1, 2, 3], multipliesIterator).then(function (result) {
+                expect(result).to.eql([ 0, 2, 6 ]);
+                done();
+            }, done);
+        });
+    });
+
     describe('fulfillTo', function () {
         it('should reject when the promise is rejected', function (done) {
             var promise = webdriver.promise.defer();
