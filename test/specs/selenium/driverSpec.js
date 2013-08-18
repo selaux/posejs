@@ -25,6 +25,7 @@ function testThatDriverWorks(driver, done) {
 }
 
 describe('Driver', function () {
+
     it('should inherit methods from selenium-webdriver', function (done) {
         var driver = driverUtils.getTestDriver();
         testThatDriverWorks(driver, done);
@@ -138,6 +139,34 @@ describe('Driver', function () {
                 expect(elementSet.getWebElements()).to.be.empty();
                 done();
             }, done);
+        });
+
+    });
+
+    describe('$', function () {
+
+        it('should act as a shortcut to findElements(webdriver.By.css())', function (done) {
+            var driver = driverUtils.getTestDriver(this.server),
+                elementSet,
+                webElements;
+
+            driver.get(testPage);
+
+            driver.$('.testClass').then(function (result) {
+                elementSet = result;
+            });
+            driver.getWebDriver().findElements(webdriver.By.className('testClass')).then(function (result) {
+                webElements = result;
+            });
+            driver.controlFlow().execute(function () {
+                return promiseUtils.map(elementSet.getWebElements(), function (val, it) {
+                    return webdriver.WebElement.equals(val, webElements[it]);
+                }).then(function (areEqual) {
+                    expect(elementSet).to.be.a(ElementSet);
+                    expect(elementSet).to.have.length(2);
+                    expect(_.unique(areEqual)).to.eql([ true ]);
+                });
+            }).then(done, done);
         });
 
     });
