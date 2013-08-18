@@ -81,7 +81,7 @@ describe('Driver', function () {
             driver.controlFlow().execute(function () {
                 return webdriver.WebElement.equals(elementSet.getWebElements()[0], webElement).then(function (areEqual) {
                     expect(elementSet).to.be.a(ElementSet);
-                    expect(elementSet.getWebElements()).to.have.length(1);
+                    expect(elementSet).to.have.length(1);
                     expect(areEqual).to.be(true);
                 });
             }).then(done, done);
@@ -123,7 +123,7 @@ describe('Driver', function () {
                     return webdriver.WebElement.equals(val, webElements[it]);
                 }).then(function (areEqual) {
                     expect(elementSet).to.be.a(ElementSet);
-                    expect(elementSet.getWebElements()).to.have.length(2);
+                    expect(elementSet).to.have.length(2);
                     expect(_.unique(areEqual)).to.eql([ true ]);
                 });
             }).then(done, done);

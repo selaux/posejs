@@ -18,7 +18,7 @@ describe('ElementSet', function () {
             elementSetPromise.then(function (elementSet) {
                 expect(elementSet.getWebElements()).to.eql([ webelement ]);
                 done();
-            });
+            }, done);
 
             webelementPromise.fulfill(webelement);
         });
@@ -32,7 +32,7 @@ describe('ElementSet', function () {
             elementSetPromise.then(function (elementSet) {
                 expect(elementSet.getWebElements()).to.eql([ webelement1, webelement2 ]);
                 done();
-            });
+            }, done);
 
             webelementPromise.fulfill([ webelement1, webelement2 ]);
         });
@@ -48,10 +48,40 @@ describe('ElementSet', function () {
             elementSetPromise.then(function (elementSet) {
                 expect(elementSet.getWebElements()).to.eql([ webelement1, webelement2, webelement3, webelement4 ]);
                 done();
-            });
+            }, done);
 
             webelementPromise.fulfill([ webelement1, [ webelement2, webelement3 ], webelement4 ]);
         });
+    });
+
+    describe('length', function () {
+
+        it('should return the number of found WebElements', function (done) {
+            var webelement1 = new WebElementStub(1),
+                webelement2 = new WebElementStub(2),
+                webelementPromise = webdriver.promise.defer(),
+                elementSetPromise = new ElementSet(webelementPromise);
+
+            elementSetPromise.then(function (elementSet) {
+                expect(elementSet).to.have.length(2);
+                done();
+            }, done);
+
+            webelementPromise.fulfill([ webelement1, webelement2 ]);
+        });
+
+        it('should return 0 for empty ElementSets', function (done) {
+            var webelementPromise = webdriver.promise.defer(),
+                elementSetPromise = new ElementSet(webelementPromise);
+
+            elementSetPromise.then(function (elementSet) {
+                expect(elementSet).to.be.empty();
+                done();
+            }, done);
+
+            webelementPromise.fulfill([]);
+        });
+
     });
 
     describe('getWebElements', function () {
