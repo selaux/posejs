@@ -15,7 +15,7 @@
         "grunt-mocha-test": "0.6.3",
         "expect.js": "0.2.0",
         "phantomjs": "1.9.1-5",
-        "sandboxed-module": "0.2.3",
+        "sandboxed-module": "0.2.1",
         "sinon": "1.7.3"
     },
     "scripts": {
