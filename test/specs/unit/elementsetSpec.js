@@ -36,6 +36,22 @@ describe('ElementSet', function () {
 
             webelementPromise.fulfill([ webelement1, webelement2 ]);
         });
+
+        it('should be initializable with a promise to a nested array of WebElements', function (done) {
+            var webelement1 = new WebElementStub(1),
+                webelement2 = new WebElementStub(2),
+                webelement3 = new WebElementStub(3),
+                webelement4 = new WebElementStub(4),
+                webelementPromise = webdriver.promise.defer(),
+                elementSetPromise = new ElementSet(webelementPromise);
+
+            elementSetPromise.then(function (elementSet) {
+                expect(elementSet.getWebElements()).to.eql([ webelement1, webelement2, webelement3, webelement4 ]);
+                done();
+            });
+
+            webelementPromise.fulfill([ webelement1, [ webelement2, webelement3 ], webelement4 ]);
+        });
     });
 
     describe('getWebElements', function () {
