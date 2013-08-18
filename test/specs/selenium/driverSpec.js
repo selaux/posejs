@@ -3,9 +3,11 @@
 var path = require('path'),
 
     expect = require('expect.js'),
+    _ = require('lodash'),
     webdriver = require('selenium-webdriver'),
 
     driverUtils = require('../../utils/driverUtils'),
+    promiseUtils = require('../../../lib/utils/promiseUtils'),
     serverUtils = require('../../utils/serverUtils'),
 
     Driver = require('../../../lib/driver'),
@@ -62,7 +64,8 @@ describe('Driver', function () {
     });
 
     describe('findElement', function () {
-        it('should return a ElementSet containing a single element', function (done) {
+
+        it('should return an ElementSet containing a single element', function (done) {
             var driver = driverUtils.getTestDriver(this.server),
                 elementSet,
                 webElement;
@@ -97,6 +100,46 @@ describe('Driver', function () {
                 done();
             });
         });
+
+    });
+
+    describe('findElements', function () {
+
+        it('should return an ElementSet containing all matching elements', function (done) {
+            var driver = driverUtils.getTestDriver(this.server),
+                elementSet,
+                webElements;
+
+            driver.get(testPage);
+
+            driver.findElements(webdriver.By.className('testClass')).then(function (result) {
+                elementSet = result;
+            });
+            driver.getWebDriver().findElements(webdriver.By.className('testClass')).then(function (result) {
+                webElements = result;
+            });
+            driver.controlFlow().execute(function () {
+                return promiseUtils.map(elementSet.getWebElements(), function (val, it) {
+                    return webdriver.WebElement.equals(val, webElements[it]);
+                }).then(function (areEqual) {
+                    expect(elementSet).to.be.a(ElementSet);
+                    expect(elementSet.getWebElements()).to.have.length(2);
+                    expect(_.unique(areEqual)).to.eql([ true ]);
+                });
+            }).then(done, done);
+        });
+
+        it('should not throw an error when no elements are found', function (done) {
+            var driver = driverUtils.getTestDriver(this.server);
+
+            driver.get(testPage);
+            driver.findElements(webdriver.By.id('nonExistant')).then(function (elementSet) {
+                expect(elementSet).to.be.a(ElementSet);
+                expect(elementSet.getWebElements()).to.be.empty();
+                done();
+            }, done);
+        });
+
     });
 
 });
