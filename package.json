@@ -14,7 +14,9 @@
         "grunt-jslint": "1.0.0",
         "grunt-mocha-test": "0.6.3",
         "expect.js": "0.2.0",
-        "phantomjs": "1.9.1-5"
+        "phantomjs": "1.9.1-5",
+        "sandboxed-module": "0.2.3",
+        "sinon": "1.7.3"
     },
     "scripts": {
         "test": "node_modules/.bin/grunt test"

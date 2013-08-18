@@ -26,36 +26,6 @@ function testThatDriverWorks(driver, done) {
 
 describe('Driver', function () {
 
-    it('should inherit methods from selenium-webdriver', function (done) {
-        var driver = driverUtils.getTestDriver();
-        testThatDriverWorks(driver, done);
-    });
-
-    describe('options', function () {
-        it('should be able change the used browser', function (done) {
-            var driver = driverUtils.getTestDriver({
-                capabilities: [
-                    webdriver.Capabilities.firefox()
-                ]
-            });
-            driver.getCapabilities().then(function (cap) {
-                expect(cap.get('browserName')).to.eql('firefox');
-            });
-            driver.quit().then(done, done);
-        });
-
-        it('should be able to set the used server url', function (done) {
-            this.timeout(30000);
-
-            var server = serverUtils.startServer({ port: 5556, local: true }, function () {
-                var driver = driverUtils.getTestDriver(server);
-                testThatDriverWorks(driver, function () {
-                    serverUtils.stopServer(server, done);
-                });
-            });
-        });
-    });
-
     describe('getWebDriver', function () {
         it('should return the underlying webdriver', function (done) {
             var driver = driverUtils.getTestDriver(this.server);
