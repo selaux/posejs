@@ -2,3 +2,5 @@ phantomjsdriver.log
 npm-debug.log
 node_modules/*
 test/fixtures/selenium-server-standalone-*
+.idea/*
+*.iml
